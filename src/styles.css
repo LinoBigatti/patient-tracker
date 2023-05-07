@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	.hovereable {
+		@apply hover:bg-slate-400 dark:hover:bg-white hover:text-white dark:hover:text-slate-900
+	}
+}

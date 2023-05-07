@@ -1,0 +1,31 @@
+{
+  "name": "patient-tracker",
+  "version": "1.0.0",
+  "description": "A patient database manager for medical research.",
+  "main": "build/main.js",
+  "type": "commonjs",
+  "scripts": {
+    "copy_html": "npx copyfiles -u 1 -e \"./src/**/*.ts\" -a \"./src/**.html\" \"./build/\"",
+    "compile_styles": "npx tailwindcss -i src/styles.css -o build/styles.css",
+    "bundle": "npx webpack",
+    "compile": "npx tsc && npm run copy_html && npm run compile_styles && npm run bundle",
+    "start": "npm run compile && npx electron ./build/main.js",
+    "test": "echo 'No test implementation' && exit 1"
+  },
+  "author": "linobigatti",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@webpack-cli/generators": "^3.0.3",
+    "copyfiles": "^2.4.1",
+    "electron": "^24.2.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4",
+    "webpack-cli": "^5.1.0"
+  },
+  "dependencies": {
+    "sqlite": "^4.2.0",
+    "sqlite3": "^5.1.6",
+    "webpack": "^5.82.0"
+  }
+}
