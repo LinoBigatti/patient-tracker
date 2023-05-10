@@ -19,7 +19,7 @@ const createWindow = () => {
     },
   })
 
-  win.loadFile("index.html")
+  win.loadFile("build/index.html")
 
   return win
 }
