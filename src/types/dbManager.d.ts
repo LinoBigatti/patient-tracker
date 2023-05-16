@@ -4,6 +4,7 @@ export interface dbManager {
   getDbStatus: () => Promise<boolean>,
   setDbUpdatedCallback: (callback: () => void) => void,
   query: (sql: string) => Array,
+  insert: (sql: string) => void,
 }
 
 declare global {

@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron"
-
+//
 import * as path from "path"
 
 import sqlite3 from "sqlite3"
@@ -37,13 +37,13 @@ app.whenReady().then(() => {
         if (db) {
           // Do validation and shit maybe
           db!.all('SELECT * FROM Patients').then((rows) => console.log(rows))
+          
+          win.webContents.send("db-updated")
         }
       })
     } else {
       // Popup
     }
-    
-    win.webContents.send("db-updated")
   })
   
   ipcMain.handle("open-db-file-dialog", () => {
@@ -68,6 +68,13 @@ app.whenReady().then(() => {
     if (!db) { return [] }
 
     return await db.all(sql)
+  })
+
+  ipcMain.handle("insert", async (_, sql) => {
+    if (!db) { return }
+
+    await db.exec(sql)
+    win.webContents.send("db-updated")
   })
 })
 

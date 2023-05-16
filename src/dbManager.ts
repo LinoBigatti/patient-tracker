@@ -20,4 +20,8 @@ contextBridge.exposeInMainWorld("db", {
   query: async (sql: string) => {
     return await ipcRenderer.invoke("query", sql)
   },
+
+  insert: async (sql: string) => {
+    ipcRenderer.invoke("insert", sql)
+  },
 })

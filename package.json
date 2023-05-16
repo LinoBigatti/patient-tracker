@@ -2,10 +2,10 @@
   "name": "patient-tracker",
   "version": "1.0.0",
   "description": "A patient database manager for medical research.",
-  "main": "build/main.js",
+  "main": "build/src/main.js",
   "type": "commonjs",
   "scripts": {
-    "copy_html": "npx copyfiles -u 1 -e \"./src/**/*.ts\" -a \"./src/**.html\" \"./build/\"",
+    "copy_html": "npx copyfiles -u 1 -e \"./src/**/*.ts\" -a \"./src/**/*.html\" \"./build/\"",
     "compile_styles": "npx tailwindcss -i src/styles.css -o build/styles.css",
     "bundle": "npx webpack",
     "compile": "npx tsc && npm run copy_html && npm run compile_styles && npm run bundle",
