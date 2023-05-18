@@ -46,7 +46,7 @@ let checkupForm: Form = {
   ],
   extra_data_name: "date, checkup_n",
   extra_data_query: "CURRENT_DATE, count(checkup_n) + 1 FROM Checkups WHERE patient =",
-  extra_data_query_id: "patient_id",
+  extra_data_query_id: "patient",
 }
 
 let patientsForm: Form = {
@@ -222,35 +222,51 @@ export function updateForm(element: HTMLElement) {
   createForm(element, current_form.fields)
 }
 
-export function sendFormData(element: HTMLFormElement) {
-  let data = new FormData(element)
-  
+export function sendFormData() {
   let cols_raw = ""
   let vals_raw = ""
 
-  for (var [column, value] of data) {
-    if (value == "on") {
-      // Weird ass workaround
-      let radio_element = document.querySelector(`input[name=${column}]:checked`) as HTMLInputElement
+  let extra_data_query_id: string | undefined
 
-      if (radio_element?.type == "radio") {
-        value = radio_element.value
-      } else {
-        value = "1"
-      }
+  for (var field of current_form.fields) {
+    let element: HTMLInputElement | undefined
+    let value: string | null
+
+    element = document.getElementById(field.id) as HTMLInputElement
+
+    if (field.type == InputType.NumericScale) {
+      element = document.querySelector(`input[name=${field.id}]:checked`) as HTMLInputElement
     }
 
-    if (value == "") {
+    if (field.type == InputType.Submit || field.type == InputType.Label) {
       continue
     }
+    
+    if (element) {
+      value = element.value
 
-    cols_raw = `${cols_raw}, ${column}`
+      if (field.type == InputType.Boolean) {
+        if (element.checked) {
+          value = "TRUE"
+        } else {
+          value = "FALSE"
+        }
+      }
+    } else {
+      value = null
+    }
+
+    cols_raw = `${cols_raw}, ${field.id}`
 
     // Add "" around strings
-    if (Number.isNaN(Number(value))) {
+    if (Number.isNaN(Number(value)) || value == "") {
       vals_raw = `${vals_raw}, "${value}"`
     } else {
       vals_raw = `${vals_raw}, ${value}`
+    }
+
+    if (current_form.extra_data_query_id == field.id && value != null) {
+      extra_data_query_id = value
     }
   }
 
@@ -261,8 +277,8 @@ export function sendFormData(element: HTMLFormElement) {
   if (current_form.extra_data_query) {
     vals_raw = `${vals_raw}, ${current_form.extra_data_query}`
 
-    if (current_form.extra_data_query_id) {
-      vals_raw = `${vals_raw} ${data.get(current_form.extra_data_query_id)}`
+    if (extra_data_query_id) {
+      vals_raw = `${vals_raw} ${extra_data_query_id}`
     }
   }
   

@@ -32,7 +32,7 @@ if (form) {
   }
 
   form.onsubmit = (event) => { 
-    sendFormData(form)
+    sendFormData()
 
     event.preventDefault()
   }
