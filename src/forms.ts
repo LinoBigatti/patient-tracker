@@ -2,6 +2,7 @@ enum InputType {
   Label,
   DropDown,
   Numeric,
+  Float,
   NumericScale,
   Date,
   Line,
@@ -29,7 +30,7 @@ let checkupForm: Form = {
   table: "checkups",
   fields: [
     {id: "top_label", name: "Cargar consulta", type: InputType.Label},
-    {id: "patient", name: "Nombre del paciente", type: InputType.DropDown, options: {query: "SELECT id, name AS value FROM Patients;"}},
+    {id: "patient", name: "Nombre del paciente", type: InputType.DropDown, options: {query: `SELECT id, (name || " " || surname) AS value FROM Patients;`}},
     {id: "date", name: "Fecha de la consulta", type: InputType.Date},
     {id: "dosage", name: "Dosis", type: InputType.Numeric, options: {suffix: " gotas"}},
     {id: "freq", name: "Frequencia", type: InputType.Numeric, options: {suffix: " dosis por dia"}},
@@ -44,8 +45,8 @@ let checkupForm: Form = {
     {id: "observations", name: "Observaciones", type: InputType.Text, options: {optional: true}},
     {id: "submit", name: "Cargar", type: InputType.Submit},
   ],
-  extra_data_name: "date, checkup_n",
-  extra_data_query: "CURRENT_DATE, count(checkup_n) + 1 FROM Checkups WHERE patient =",
+  extra_data_name: "checkup_n",
+  extra_data_query: "count(checkup_n) + 1 FROM Checkups WHERE patient =",
   extra_data_query_id: "patient",
 }
 
@@ -53,7 +54,7 @@ let patientsForm: Form = {
   table: "Patients",
   fields: [
     {id: "top_label", name: "Agregar paciente", type: InputType.Label},
-    {id: "doctor", name: "Doctor", type: InputType.DropDown, options: {query: "SELECT id, name AS value FROM Doctors;"}},
+    {id: "doctor", name: "Doctor", type: InputType.DropDown, options: {query: `SELECT id, (name || " " || surname) AS value FROM Doctors;`}},
     {id: "name", name: "Nombre(s)", type: InputType.Line},
     {id: "surname", name: "Apellido(s)", type: InputType.Line},
     {id: "dni", name: "DNI", type: InputType.Numeric},
@@ -65,13 +66,15 @@ let patientsForm: Form = {
     {id: "diagnostic_classification", name: "Clasificacion del diagnostico", type: InputType.DropDown, options: {query: "SELECT id, classification AS value FROM ClassificationOptions;"}},
     {id: "base_treatment", name: "Tratamientos previos", type: InputType.Text, options: {optional: true}},
     {id: "concentration", name: "Concentracion", type: InputType.DropDown, options: {query: "SELECT id, concentration AS value FROM ConcentrationOptions;"}},
-    {id: "weight", name: "Peso", type: InputType.Numeric, options: {suffix: "kg"}}, // Make float later
+    {id: "weight", name: "Peso", type: InputType.Float, options: {suffix: "kg"}},
     {id: "height", name: "Altura", type: InputType.Numeric, options: {suffix: "cm"}},
-    {id: "bmi", name: "BMI", type: InputType.Numeric}, // Make float later
+    {id: "bmi", name: "BMI", type: InputType.Float},
     {id: "bilirrubin", name: "Bilirrubina", type: InputType.Line},
-    {id: "blood_pressure", name: "Presion arterial", type: InputType.Line},
-    {id: "creatinin", name: "Creatinina", type: InputType.Numeric}, // Make float later
-    {id: "tsh", name: "TSH/T4", type: InputType.Numeric}, // Make float later
+    {id: "max_blood_pressure", name: "Presion arterial sistolica", type: InputType.Numeric},
+    {id: "min_blood_pressure", name: "Presion arterial diastolica", type: InputType.Numeric},
+    {id: "creatinin", name: "Creatinina", type: InputType.Float, options: {step: 0.01}},
+    {id: "tsh", name: "TSH/T4", type: InputType.Line},
+    {id: "extra_studies", name: "Estudios complementarios", type: InputType.Text, options: {optional: true}},
     {id: "observations", name: "Observaciones", type: InputType.Text, options: {optional: true}},
     {id: "submit", name: "Añadir", type: InputType.Submit},
   ]
@@ -145,6 +148,23 @@ async function createForm(element: HTMLElement, form: FormElement[]) {
       innerHTML += "<br>\n"
     }
 
+    if (input.type == InputType.Float) {
+      let min = ""
+      let max = ""
+      let step = `step="0.1"`
+
+      if (input.options) {
+        if (input.options.min) min = `min="${input.options.min}"`
+        if (input.options.min) max = `max="${input.options.max}"`
+        if (input.options.step) step = `step="${input.options.step}"`
+      }
+      
+      innerHTML += `<label for="${input.id}">${input.name}: </label>\n`
+      innerHTML += `<input ${required} type="number" id="${input.id}" name="${input.id}" ${min} ${max} ${step}>\n`
+
+      innerHTML += "<br>\n"
+    }
+
     if (input.type == InputType.NumericScale) {
       let min = 1
       let max = 10
@@ -182,12 +202,17 @@ async function createForm(element: HTMLElement, form: FormElement[]) {
     }
 
     if (input.type == InputType.Date) {
+      let today = new Date().toISOString().slice(0, 10)
+      
+      innerHTML += `<label for="${input.id}">${input.name}: </label>\n`
+      innerHTML += `<input type="date" id="${input.id}" name="${input.id}" value="${today}">\n`
 
+      innerHTML += "<br>\n"
     }
 
     if (input.type == InputType.Boolean) {
       innerHTML += `<label for="${input.id}">${input.name}: </label>\n`
-      innerHTML += `<input ${required} type="checkbox" id="${input.id}" name="${input.id}">\n`
+      innerHTML += `<input type="checkbox" id="${input.id}" name="${input.id}">\n`
 
       innerHTML += "<br>\n"
     }

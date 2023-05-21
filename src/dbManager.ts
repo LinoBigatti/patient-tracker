@@ -1,6 +1,6 @@
-import { contextBridge, ipcRenderer } from "electron"
+import { ipcRenderer } from "electron"
 
-contextBridge.exposeInMainWorld("db", {
+export const db = {
   openFileDialog: () => {
     ipcRenderer.invoke("open-db-file-dialog")
   },
@@ -24,4 +24,4 @@ contextBridge.exposeInMainWorld("db", {
   insert: async (sql: string) => {
     ipcRenderer.invoke("insert", sql)
   },
-})
+}

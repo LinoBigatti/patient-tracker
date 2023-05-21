@@ -1,4 +1,5 @@
 import { createCheckupForm, createPatientsForm, updateForm, sendFormData, createDoctorsForm } from "./forms.js"
+import { createDownloadsForm } from "./downloads.js";
 
 let loadDbButton = document.getElementById("loadDatabase")
 if (loadDbButton) {
@@ -13,25 +14,60 @@ if (createDbButton) {
 let manageCheckupsButton = document.getElementById("manageCheckups")
 let managePatientsButton = document.getElementById("managePatients")
 let manageDoctorsButton  = document.getElementById("manageDoctors")
+let downloadsButton = document.getElementById("download")
 
-let form = document.getElementById("form") as HTMLFormElement
-if (form) {
-  window.db.setDbUpdatedCallback(() => updateForm(form))
-  createCheckupForm(form)
+let mainForm = document.getElementById("mainForm") as HTMLFormElement
+let downloadsForm = document.getElementById("downloadsForm") as HTMLFormElement
+
+let form = mainForm
+
+if (form && downloadsForm) {
+  window.db.setDbUpdatedCallback(() => {
+    if (form == mainForm) {
+      updateForm(form)
+    } else {
+      createDownloadsForm(form)
+    }
+  })
+  createCheckupForm(mainForm)
 
   if (manageCheckupsButton) {
-    manageCheckupsButton.onclick = () => createCheckupForm(form)
+    manageCheckupsButton.onclick = () => {
+      form = mainForm
+      downloadsForm.innerHTML = ""
+
+      createCheckupForm(mainForm)
+    }
   }
 
   if (managePatientsButton) {
-    managePatientsButton.onclick = () => createPatientsForm(form)
+    managePatientsButton.onclick = () => {
+      form = mainForm
+      downloadsForm.innerHTML = ""
+
+      createPatientsForm(mainForm)
+    }
   }
 
   if (manageDoctorsButton) {
-    manageDoctorsButton.onclick = () => createDoctorsForm(form)
+    manageDoctorsButton.onclick = () => {
+      form = mainForm
+      downloadsForm.innerHTML = ""
+
+      createDoctorsForm(form)
+    }
   }
 
-  form.onsubmit = (event) => { 
+  if (downloadsButton) {
+    downloadsButton.onclick = () => {
+      form = downloadsForm
+      mainForm.innerHTML = ""
+
+      createDownloadsForm(form)
+    }
+  }
+
+  mainForm.onsubmit = (event) => { 
     sendFormData()
 
     event.preventDefault()

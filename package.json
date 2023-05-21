@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "copy_html": "npx copyfiles -u 1 -e \"./src/**/*.ts\" -a \"./src/**/*.html\" \"./build/\"",
-    "compile_styles": "npx tailwindcss -i src/styles.css -o build/styles.css",
+    "compile_styles": "npx tailwindcss -i src/styles.css -o build/styles.css && cp src/nouislider.css build/nouislider.css",
     "bundle": "npx webpack",
     "compile": "npx tsc && npm run copy_html && npm run compile_styles && npm run bundle",
     "start": "npm run compile && electron-forge start",
@@ -23,13 +23,16 @@
     "@electron-forge/maker-zip": "^6.1.1",
     "@webpack-cli/generators": "^3.0.3",
     "copyfiles": "^2.4.1",
+    "css-loader": "^6.7.4",
     "electron": "^24.2.0",
+    "style-loader": "^3.3.3",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
     "webpack-cli": "^5.1.0"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "nouislider": "^15.7.0",
     "sqlite": "^4.2.0",
     "sqlite3": "^5.1.6",
     "webpack": "^5.82.0"

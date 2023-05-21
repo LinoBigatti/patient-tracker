@@ -22,9 +22,11 @@ CREATE TABLE Patients (
 	height integer,
 	bmi float,
 	bilirrubin string,
-	blood_pressure string,
+	max_blood_pressure integer,
+	min_blood_pressure integer,
 	creatinin float,
 	tsh float,
+	extra_studies string,
 	observations string,
 	doctor integer
 );

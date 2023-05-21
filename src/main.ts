@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron"
-//
+
 import * as path from "path"
+import * as fs from "fs"
 
 import sqlite3 from "sqlite3"
 import * as sqlite from "sqlite"
@@ -15,7 +16,8 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, "dbManager.js"),
+      preload: path.join(__dirname, "preloads.js"),
+      sandbox: false,
     },
   })
 
@@ -76,6 +78,10 @@ app.whenReady().then(() => {
     await db.exec(sql)
     win.webContents.send("db-updated")
   })
+
+  ipcMain.handle("export-csv", (_, csv) => {
+    saveCSV(win, csv)
+  })
 })
 
 app.on('window-all-closed', () => {
@@ -109,7 +115,7 @@ function createDb(path: string) {
   openDb(path, true).then(() => {
     if (db) {
       db.exec(dbCreationSql).then(() => {
-        db!.all('SELECT * FROM Patients').then((rows) => console.log(rows))
+        db!.all("SELECT * FROM Patients").then((rows) => console.log(rows))
       })
     }
   })
@@ -144,5 +150,21 @@ function openDbCreationFileDialog(win: BrowserWindow) {
   if (path) {
     createDb(path)
     win.webContents.executeJavaScript(`localStorage.setItem('dbPath', '${path}')`)
+  }
+}
+
+function saveCSV(win: BrowserWindow, csv: string) {
+  let path = dialog.showSaveDialogSync(win, {
+    title: "Export as CSV",
+    defaultPath: "datos.csv",
+    buttonLabel: "Save",
+    filters: [
+      { "name": "CSV Files", "extensions": ["csv"] },
+      { "name": "All Files", "extensions": ["*"] },
+    ],
+  })
+  
+  if (path) {
+    fs.writeFileSync(path, csv)
   }
 }
