@@ -138,3 +138,9 @@ build/
 # vim files
 *.swp
 *.vimprj
+
+# out dir
+out/
+
+# intermediary csv table
+output.csv

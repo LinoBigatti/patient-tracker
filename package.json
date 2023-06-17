@@ -2,7 +2,7 @@
   "name": "patient-tracker",
   "version": "1.0.0",
   "description": "A patient database manager for medical research.",
-  "main": "build/src/main.js",
+  "main": "build/main.js",
   "type": "commonjs",
   "scripts": {
     "copy_html": "npx copyfiles -u 1 -e \"./src/**/*.ts\" -a \"./src/**/*.html\" \"./build/\"",
@@ -20,7 +20,7 @@
     "@electron-forge/maker-deb": "^6.1.1",
     "@electron-forge/maker-rpm": "^6.1.1",
     "@electron-forge/maker-squirrel": "^6.1.1",
-    "@electron-forge/maker-zip": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.2.1",
     "@webpack-cli/generators": "^3.0.3",
     "copyfiles": "^2.4.1",
     "css-loader": "^6.7.4",

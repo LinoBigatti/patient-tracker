@@ -17,25 +17,20 @@
 
     <title></title>
   </head>
-  <body class="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
-    <div class="overflow-hidden text-center text-xl">
+  <body class="bg-gray-200 dark:bg-slate-800 text-slate-900 text-xl">
+    <div class="overflow-hidden text-center py-6">
       <button id="manageCheckups" class="float-left px-3.5 py-4 hovereable">Cargar Datos</button>
       <button id="managePatients" class="float-left px-3.5 py-4 hovereable">Manejar Pacientes</button>
       <button id="manageDoctors"  class="float-left px-3.5 py-4 hovereable">Manejar Doctores</button>
-      <button id="download"       class="float-left px-3.5 py-4 hovereable">Descargar Datos</button>
+      <button id="download"       class="float-left px-3.5 py-4 hovereable rounded-r-lg">Descargar Datos</button>
       
       <div class="group relative float-right inline-block">
-        <button class="px-3.5 py-4 hovereable">Herramientas</button>
-
-        <div class="hidden group-hover:block min-w-[240px] z-[1]">
-          <button id="loadDatabase"     class="hovereable hidden group-hover:block w-full">Cargar Base de Datos</button>
-          <button id="createDatabase"   class="hovereable hidden group-hover:block w-full">Crear Base de Datos</button>
-          <button id="migrateDatabase"  class="hovereable hidden group-hover:block w-full">Migrar Base de Datos</button>
-        </div>
+        <button id="loadDatabase"     class="float-right px-3.5 py-4 hovereable">Cargar Base de Datos</button>
+        <button id="createDatabase"   class="float-right px-3.5 py-4 hovereable rounded-l-lg">Crear Base de Datos</button>
       </div>
     </div>
 
-    <form id="mainForm"></form>
+    <form id="mainForm" class="bg-white dark:bg-slate-1000 shadow-2xl rounded m-auto p-3 mb-3 w-full max-w-2xl"></form>
     <div id="downloadsForm"></div>
 
     <script src="index.js" type="module"></script>

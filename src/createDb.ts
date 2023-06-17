@@ -44,6 +44,7 @@ CREATE TABLE Checkups (
 	depression integer,
 	anxiety integer,
 	insomnia integer,
+	sleepiness integer,
 	adverse_effects string,
 	observations string
 );
@@ -52,17 +53,17 @@ CREATE TABLE GenderOptions (
 	id integer PRIMARY KEY,
 	gender string
 );
-INSERT INTO GenderOptions (gender) VALUES ("Femenino");
-INSERT INTO GenderOptions (gender) VALUES ("Masculino");
-INSERT INTO GenderOptions (gender) VALUES ("Otro");
+INSERT INTO GenderOptions (gender) VALUES ("femenino");
+INSERT INTO GenderOptions (gender) VALUES ("masculino");
+INSERT INTO GenderOptions (gender) VALUES ("otro");
 
 CREATE TABLE ClassificationOptions (
 	id integer PRIMARY KEY,
 	classification string
 );
-INSERT INTO ClassificationOptions (classification) VALUES ("Dolor neuropático");
-INSERT INTO ClassificationOptions (classification) VALUES ("Dolor musculoesquelético");
-INSERT INTO ClassificationOptions (classification) VALUES ("Dolor oncológico");
+INSERT INTO ClassificationOptions (classification) VALUES ("dolor neuropatico");
+INSERT INTO ClassificationOptions (classification) VALUES ("dolor musculoesqueletico");
+INSERT INTO ClassificationOptions (classification) VALUES ("dolor oncologico");
 
 CREATE TABLE ConcentrationOptions (
 	id integer PRIMARY KEY,

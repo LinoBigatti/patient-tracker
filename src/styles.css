@@ -4,6 +4,6 @@
 
 @layer utilities {
 	.hovereable {
-		@apply hover:bg-slate-400 dark:hover:bg-white hover:text-white dark:hover:text-slate-900
+		@apply bg-blue-600 hover:bg-blue-900 shadow-lg text-white 
 	}
 }
