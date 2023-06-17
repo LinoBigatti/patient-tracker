@@ -38,7 +38,7 @@ app.whenReady().then(() => {
       openDb(path).then(() => {
         if (db) {
           // Do validation and shit maybe
-          db!.all('SELECT * FROM Patients').then((rows) => console.log(rows))
+          db!.all('SELECT * FROM Patients').then((_rows) => console.log("Opened DB succesfully"))
           
           win.webContents.send("db-updated")
         }
@@ -68,7 +68,7 @@ app.whenReady().then(() => {
 
   ipcMain.handle("query", async (_, sql) => {
     if (!db) { return [] }
-
+    
     return await db.all(sql)
   })
 

@@ -142,5 +142,5 @@ build/
 # out dir
 out/
 
-# intermediary csv table
-output.csv
+# csv tables
+*.csv

@@ -8,8 +8,8 @@ SELECT
   Checkups.date AS fecha,
 
   /* Patient info */
-  (Patients.name || " " || Patients.surname) AS paciente,
-  (Doctors.name || " " || Doctors.surname) AS doctor,
+  (Patients.surname || ' ' || Patients.name) AS paciente,
+  (Doctors.surname || ' ' || Doctors.name) AS doctor,
   Patients.dni AS DNI,
   Patients.clinic_history AS historia_clinica,
   GenderOptions.gender AS genero,
@@ -23,7 +23,7 @@ SELECT
   Patients.height AS altura,
   Patients.bmi AS BMI,
   Patients.bilirrubin AS bilirrubina,
-  (Patients.max_blood_pressure || "/" || Patients.min_blood_pressure) AS presion,
+  (Patients.max_blood_pressure || '/' || Patients.min_blood_pressure) AS presion,
   Patients.creatinin AS creatinina,
   Patients.tsh AS TSH_T4,
   Patients.extra_studies AS estudios_complementarios,
@@ -171,7 +171,7 @@ export async function createDownloadsForm(element: HTMLElement) {
   
   if (normalDownloadButton) {
     normalDownloadButton.onclick = async () => {
-      if (lostCasesFilterSlider) {
+      if (casesFilterSlider) {
         let sql = getCheckupDataSQL
           // @ts-ignore 2339
           .replaceAll("{min}", Number(casesFilterSlider.noUiSlider.get()[0]))
@@ -180,10 +180,8 @@ export async function createDownloadsForm(element: HTMLElement) {
         
         let data = await window.db.query(sql)
 
-        console.log(data)
-
         let csv = ""
-        if (data) {
+        if (data && data.length != 0) {
           let keys = Object.keys(data[0])
 
           csv += keys.map((key) => `"${key}"`).join(";")
@@ -194,7 +192,7 @@ export async function createDownloadsForm(element: HTMLElement) {
             csv += "\n"
           }
         }
-
+        
         window.exporter.exportCSV(csv)
       }
     }
