@@ -26,6 +26,9 @@ const createWindow = () => {
   return win
 }
 
+// Force spanish locale
+app.commandLine.appendSwitch("lang", "ES")
+
 app.whenReady().then(() => {
   const win = createWindow()
 
