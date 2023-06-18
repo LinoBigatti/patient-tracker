@@ -30,7 +30,7 @@ let checkupForm: Form = {
   table: "checkups",
   fields: [
     {id: "top_label", name: "Cargar consulta", type: InputType.Label},
-    {id: "patient", name: "Nombre del paciente", type: InputType.DropDown, options: {query: `SELECT Patients.id, (Patients.surname || ' ' || Patients.name || ' (' || count(Checkups.patient) || ' consulta(s) registrada(s))') AS value FROM Patients INNER JOIN Checkups ON Checkups.patient = Patients.id GROUP BY Patients.id ORDER BY surname ASC;`}},
+    {id: "patient", name: "Nombre del paciente", type: InputType.DropDown, options: {query: `SELECT Patients.id, (Patients.surname || ' ' || Patients.name || ' (' || count(Checkups.patient) || ' consulta(s) registrada(s))') AS value FROM Patients LEFT JOIN Checkups ON Checkups.patient = Patients.id GROUP BY Patients.id ORDER BY surname ASC;`}},
     {id: "date", name: "Fecha de la consulta", type: InputType.Date},
     {id: "dosage", name: "Dosis", type: InputType.Numeric, options: {suffix: " gotas"}},
     {id: "freq", name: "Frecuencia", type: InputType.Numeric, options: {suffix: " dosis por dia"}},

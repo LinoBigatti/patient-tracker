@@ -1,6 +1,6 @@
 import { createCheckupForm, createPatientsForm, updateForm, sendFormData, createDoctorsForm } from "./forms.js"
 import { createDownloadsForm } from "./downloads.js";
-
+//
 let loadDbButton = document.getElementById("loadDatabase")
 if (loadDbButton) {
   loadDbButton.onclick = () => window.db.openFileDialog();
