@@ -55,7 +55,7 @@ let patientsForm: Form = {
   table: "Patients",
   fields: [
     {id: "top_label", name: "Agregar paciente", type: InputType.Label},
-    {id: "doctor", name: "Doctor", type: InputType.DropDown, options: {query: `SELECT id, (surname || " " || name) AS value FROM Doctors ORDER BY surname ASC;`}},
+    {id: "doctor", name: "Medico", type: InputType.DropDown, options: {query: `SELECT id, (surname || " " || name) AS value FROM Doctors ORDER BY surname ASC;`}},
     {id: "name", name: "Nombre(s)", type: InputType.Line},
     {id: "surname", name: "Apellido(s)", type: InputType.Line},
     {id: "dni", name: "DNI", type: InputType.Numeric},
@@ -84,7 +84,7 @@ let patientsForm: Form = {
 let doctorsForm: Form = {
   table: "Doctors",
   fields: [
-    {id: "top_label", name: "Añadir doctor", type: InputType.Label},
+    {id: "top_label", name: "Añadir medico", type: InputType.Label},
     {id: "name", name: "Nombre(s)", type: InputType.Line},
     {id: "surname", name: "Apellido(s)", type: InputType.Line},
     {id: "submit", name: "Añadir", type: InputType.Submit},
@@ -104,7 +104,7 @@ const textbox_class = "bg-gray-200 appearance-none shadow-md border-2 border-gra
 const dropdown_class = "block appearance-none shadow-md w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
 const dropdown_extra_code = `<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">\n<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>\n</div>\n`
 
-const button_class = `bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`
+const button_class = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 
 let current_form: Form 
 
@@ -113,7 +113,7 @@ async function createForm(element: HTMLElement, form: FormElement[]) {
 
   let loaded = await window.db.getDbStatus()
   if (!loaded) {
-    element.innerHTML = "Por favor cargue o cree una base de datos en herramientas."
+    element.innerHTML = "Por favor cargue o cree una base de datos."
     
     return
   }

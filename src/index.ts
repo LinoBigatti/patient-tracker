@@ -1,6 +1,6 @@
 import { createCheckupForm, createPatientsForm, updateForm, sendFormData, createDoctorsForm } from "./forms.js"
 import { createDownloadsForm } from "./downloads.js";
-//
+
 let loadDbButton = document.getElementById("loadDatabase")
 if (loadDbButton) {
   loadDbButton.onclick = () => window.db.openFileDialog();
@@ -29,12 +29,14 @@ if (form && downloadsForm) {
       createDownloadsForm(form)
     }
   })
+
   createCheckupForm(mainForm)
 
   if (manageCheckupsButton) {
     manageCheckupsButton.onclick = () => {
       form = mainForm
-      downloadsForm.innerHTML = ""
+      mainForm.style.display = "block"
+      downloadsForm.style.display = "none"
 
       createCheckupForm(mainForm)
     }
@@ -43,7 +45,8 @@ if (form && downloadsForm) {
   if (managePatientsButton) {
     managePatientsButton.onclick = () => {
       form = mainForm
-      downloadsForm.innerHTML = ""
+      mainForm.style.display = "block"
+      downloadsForm.style.display = "none"
 
       createPatientsForm(mainForm)
     }
@@ -52,7 +55,8 @@ if (form && downloadsForm) {
   if (manageDoctorsButton) {
     manageDoctorsButton.onclick = () => {
       form = mainForm
-      downloadsForm.innerHTML = ""
+      mainForm.style.display = "block"
+      downloadsForm.style.display = "none"
 
       createDoctorsForm(form)
     }
@@ -61,7 +65,8 @@ if (form && downloadsForm) {
   if (downloadsButton) {
     downloadsButton.onclick = () => {
       form = downloadsForm
-      mainForm.innerHTML = ""
+      mainForm.style.display = "none"
+      downloadsForm.style.display = "block"
 
       createDownloadsForm(form)
     }
