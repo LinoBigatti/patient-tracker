@@ -47,7 +47,7 @@ let checkupForm: Form = {
     {id: "submit", name: "Cargar", type: InputType.Submit},
   ],
   extra_data_name: "checkup_n",
-  extra_data_query: "count(checkup_n) + 1 FROM Checkups WHERE patient =",
+  extra_data_query: "count(checkup_n) FROM Checkups WHERE patient =",
   extra_data_query_id: "patient",
 }
 
